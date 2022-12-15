@@ -1,4 +1,4 @@
-package com.example.my_library
+package com.example.photoeditor_module
 
 import org.junit.Test
 

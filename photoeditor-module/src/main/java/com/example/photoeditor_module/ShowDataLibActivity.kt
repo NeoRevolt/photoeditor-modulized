@@ -1,8 +1,8 @@
-package com.example.my_library
+package com.example.photoeditor_module
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.my_library.databinding.ActivityShowDataLibBinding
+import com.example.photoeditor_module.databinding.ActivityShowDataLibBinding
 
 class ShowDataLibActivity : AppCompatActivity() {
     private lateinit var binding: ActivityShowDataLibBinding

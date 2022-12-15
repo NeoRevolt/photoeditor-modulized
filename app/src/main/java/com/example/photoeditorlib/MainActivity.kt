@@ -3,7 +3,7 @@ package com.example.photoeditorlib
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.my_library.ShowDataLibActivity
+import com.example.photoeditor_module.ShowDataLibActivity
 import com.example.photoeditorlib.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace 'com.example.my_library'
+    namespace 'com.example.photoeditor_module'
     compileSdk 32
 
     defaultConfig {
