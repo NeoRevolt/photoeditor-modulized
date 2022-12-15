@@ -5,11 +5,11 @@ plugins {
 
 android {
     namespace 'com.example.photoeditor_module'
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 32
+        targetSdkVersion 33
         versionCode 1
         versionName "3.0.0"
 

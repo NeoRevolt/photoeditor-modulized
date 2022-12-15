@@ -2,7 +2,6 @@ package com.example.photoeditor_module.burhanrashid52.photoeditor.shape
 
 import android.graphics.Color
 import androidx.annotation.ColorInt
-import ja.burhanrashid52.photoeditor.shape.ShapeType
 
 /**
  *
