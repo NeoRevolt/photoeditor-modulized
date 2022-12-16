@@ -3,6 +3,7 @@ package com.example.photoeditorlib
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.photoeditor_module.EditImageActivity
 import com.example.photoeditor_module.ShowDataLibActivity
 import com.example.photoeditorlib.databinding.ActivityMainBinding
 
@@ -16,14 +17,14 @@ class MainActivity : AppCompatActivity() {
 
         binding.apply {
             btnToLib.setOnClickListener {
-//                Intent(this@MainActivity, Class.forName("com.example.my_library.ShowDataLibActivity")).also {
+                Intent(this@MainActivity, Class.forName("com.example.photoeditor_module.EditImageActivity")).also {
+                    it.putExtra(EditImageActivity.EXTRA_REQ,"gallery")
+                    startActivity(it)
+                }
+//                Intent(this@MainActivity, ShowDataLibActivity::class.java).also {
 //                    it.putExtra(ShowDataLibActivity.EXTRA_DETAIL,"INI DATA")
 //                    startActivity(it)
 //                }
-                Intent(this@MainActivity, ShowDataLibActivity::class.java).also {
-                    it.putExtra(ShowDataLibActivity.EXTRA_DETAIL,"INI DATA")
-                    startActivity(it)
-                }
             }
         }
     }
