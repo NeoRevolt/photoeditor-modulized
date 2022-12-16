@@ -16,6 +16,7 @@
         android:layout_alignParentRight="true"
         android:background="@drawable/rounded_border_text_view"
         android:padding="10dp"
+        android:layout_margin="20dp"
         android:text="Done"
         android:textAllCaps="false"
         android:textColor="@color/white"
