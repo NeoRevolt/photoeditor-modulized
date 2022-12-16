@@ -20,7 +20,6 @@ import android.view.animation.AnticipateOvershootInterpolator
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
@@ -49,17 +48,7 @@ import com.example.photoeditor_module.tools.EditingToolsAdapter
 import com.example.photoeditor_module.tools.ToolType
 import com.example.photoeditor_module.ui.toolsfragments.*
 import com.example.photoeditor_module.utils.FileSaveHelper
-import com.example.photoeditor_module.utils.reduceFileImage
 import com.example.photoeditor_module.utils.uriToFile
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.lang.reflect.Type
 import java.util.concurrent.Executors
 
 class EditImageActivity : BaseActivity(), OnPhotoEditorListener, View.OnClickListener,
@@ -124,11 +113,11 @@ class EditImageActivity : BaseActivity(), OnPhotoEditorListener, View.OnClickLis
         val pinchTextScalable = intent.getBooleanExtra(PINCH_TEXT_SCALABLE_INTENT_KEY, true)
 
         // NOTE Get Image URL from Detail Activity
-//        val photoUrl = intent.getStringExtra(DetailActivity.EXTRA_PHOTO)
+        val photoUrl = intent.getStringExtra(EXTRA_PHOTO)
         val requestCode = intent.getStringExtra(EXTRA_REQ)
 
         //Typeface mTextRobotoTf = ResourcesCompat.getFont(this, R.font.roboto_medium);
-        //Typeface mEmojiTypeFace = Typeface.createFromAsset(getAssets(), "emojione-android.ttf");
+//        Typeface mEmojiTypeFace = Typeface.createFromAsset(getAssets(), "emojione-android.ttf");
         mPhotoEditor = mPhotoEditorView?.run {
             PhotoEditor.Builder(this@EditImageActivity, this)
                 .setPinchTextScalable(pinchTextScalable) // set flag to make text scalable when pinch
@@ -145,48 +134,26 @@ class EditImageActivity : BaseActivity(), OnPhotoEditorListener, View.OnClickLis
             intent.action = Intent.ACTION_GET_CONTENT
             startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_REQUEST)
             showLoading(false)
+        } else if (requestCode == "remote"){
+            val executor = Executors.newSingleThreadExecutor()
+            val handler = Handler(Looper.getMainLooper())
+            var image: Bitmap? = null
+            executor.execute {
+                try {
+                    showLoading(true)
+                    val `in` = java.net.URL(photoUrl).openStream()
+                    image = BitmapFactory.decodeStream(`in`)
+                    handler.post{
+                        showLoading(false)
+                        mPhotoEditorView?.source?.setImageBitmap(image)
+                    }
+                }
+                catch (e: Exception){
+                    e.printStackTrace()
+                }
+            }
         }
-//        } else if (requestCode == "remote"){
-//            val executor = Executors.newSingleThreadExecutor()
-//            val handler = Handler(Looper.getMainLooper())
-//            var image: Bitmap? = null
-//            executor.execute {
-//                val imageURL = photoUrl
-//                try {
-//                    showLoading(true)
-//                    val `in` = java.net.URL(imageURL).openStream()
-//                    image = BitmapFactory.decodeStream(`in`)
-//                    handler.post{
-//                        showLoading(false)
-//                        mPhotoEditorView?.source?.setImageBitmap(image)
-//                    }
-//                }
-//                catch (e: Exception){
-//                    e.printStackTrace()
-//                }
-//            }
-//        }
         showLoading(false)
-
-        //Set Image Dynamically //TODO
-//        val executor = Executors.newSingleThreadExecutor()
-//        val handler = Handler(Looper.getMainLooper())
-//        var image: Bitmap? = null
-//        executor.execute {
-//            val imageURL = photoUrl
-//            try {
-//                showLoading(true)
-//                val `in` = java.net.URL(imageURL).openStream()
-//                image = BitmapFactory.decodeStream(`in`)
-//                handler.post{
-//                    showLoading(false)
-//                    mPhotoEditorView?.source?.setImageBitmap(image)
-//                }
-//            }
-//            catch (e: Exception){
-//                e.printStackTrace()
-//            }
-//        }
         mPhotoEditorView?.source?.setImageResource(R.drawable.blank_image)
         mSaveFileHelper = FileSaveHelper(this)
     }
@@ -343,7 +310,6 @@ class EditImageActivity : BaseActivity(), OnPhotoEditorListener, View.OnClickLis
             R.id.imgRedo -> mPhotoEditor?.redo()
             R.id.imgSave -> saveImage()
             R.id.imgClose -> onBackPressed()
-//            R.id.imgShare -> shareImage()
             R.id.imgShare -> sharePicture()
             R.id.imgCamera -> {
                 val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
@@ -358,7 +324,7 @@ class EditImageActivity : BaseActivity(), OnPhotoEditorListener, View.OnClickLis
         }
     }
 
-    // TODO : Coba agar bisa upload ke API
+    // TODO : Share to different app
     private fun shareImage() {
         val intent = Intent(Intent.ACTION_SEND)
         intent.type = "image/*"
@@ -678,8 +644,5 @@ class EditImageActivity : BaseActivity(), OnPhotoEditorListener, View.OnClickLis
         const val PINCH_TEXT_SCALABLE_INTENT_KEY = "PINCH_TEXT_SCALABLE"
         const val EXTRA_PHOTO = "extra_photo"
         const val EXTRA_REQ = "extra_req"
-
-        private val REQUEST_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
-        private const val REQUEST_CODE_PERMISSION = 10
     }
 }

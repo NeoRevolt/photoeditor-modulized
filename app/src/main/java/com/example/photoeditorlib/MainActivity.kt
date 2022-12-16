@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity() {
             btnToLib.setOnClickListener {
                 Intent(this@MainActivity, Class.forName("com.example.photoeditor_module.EditImageActivity")).also {
                     it.putExtra(EditImageActivity.EXTRA_REQ,"gallery")
+                    it.putExtra(EditImageActivity.EXTRA_PHOTO,"https://story-api.dicoding.dev/images/stories/photos-1671171861104_xky0h4lW.jpg")
                     startActivity(it)
                 }
 //                Intent(this@MainActivity, ShowDataLibActivity::class.java).also {
