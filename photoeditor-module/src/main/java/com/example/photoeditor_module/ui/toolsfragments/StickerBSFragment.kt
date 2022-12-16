@@ -22,6 +22,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.example.photoeditor_module.R
+import com.example.photoeditor_module.data.offline.IconViewModel
+import com.example.photoeditor_module.data.offline.entity.IconEntity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -29,7 +31,7 @@ import retrofit2.Response
 class StickerBSFragment : BottomSheetDialogFragment() {
 
 //    val listStoryItem = ArrayList<ListStoryItem>()
-//    private lateinit var mIconViewModel: IconViewModel
+    private lateinit var mIconViewModel: IconViewModel
 
 
     private var mStickerListener: StickerListener? = null
@@ -75,38 +77,38 @@ class StickerBSFragment : BottomSheetDialogFragment() {
 //        rvEmoji.setItemViewCacheSize(listStoryItem.size)
 
         //TODO : Try to fix the logic for sticker
-//        mIconViewModel = ViewModelProvider(this).get(IconViewModel::class.java)
-//        if (iconPestList.isNotEmpty()){
-//            mIconViewModel.deleteIconFromDB()
-//        }
-////        mIconViewModel.deleteIconFromDB()
-//
-//        mIconViewModel.readAllIcon.observe(this, Observer { icon->
-//            if (icon.isNullOrEmpty()){
-//                addIconToDatabase()
-//                stickerAdapter.setData(icon)
-//            }
-//            stickerAdapter.setData(icon)
-//        })
+        mIconViewModel = ViewModelProvider(this).get(IconViewModel::class.java)
+        if (iconPestList.isNotEmpty()){
+            mIconViewModel.deleteIconFromDB()
+        }
+//        mIconViewModel.deleteIconFromDB()
+
+        mIconViewModel.readAllIcon.observe(this, Observer { icon->
+            if (icon.isNullOrEmpty()){
+                addIconToDatabase()
+                stickerAdapter.setData(icon)
+            }
+            stickerAdapter.setData(icon)
+        })
     }
 
-//    private fun addIconToDatabase(){
-//        mIconViewModel.apply {
-//            addIcon(IconEntity(null,"Fly","https://cdn-icons-png.flaticon.com/512/2849/2849909.png"));
-//            addIcon(IconEntity(null,"Ant","https://cdn-icons-png.flaticon.com/512/1850/1850279.png"));
-//            addIcon(IconEntity(null,"Bug","https://cdn-icons-png.flaticon.com/512/854/854649.png"));
-//            addIcon(IconEntity(null,"Centipede","https://cdn-icons-png.flaticon.com/512/1850/1850261.png"));
-//            addIcon(IconEntity(null,"Roach","https://cdn-icons-png.flaticon.com/512/1553/1553874.png"));
-//            addIcon(IconEntity(null,"Mosquito","https://cdn-icons-png.flaticon.com/512/2865/2865206.png"));
-//            addIcon(IconEntity(null,"Spider","https://cdn-icons-png.flaticon.com/512/1850/1850190.png"));
-//            addIcon(IconEntity(null,"Wasp","https://cdn-icons-png.flaticon.com/512/311/311590.png"));
-//            addIcon(IconEntity(null,"Beetle","https://cdn-icons-png.flaticon.com/512/2975/2975299.png"));
-//            addIcon(IconEntity(null,"Mouse","https://cdn-icons-png.flaticon.com/512/2297/2297338.png"));
-//            addIcon(IconEntity(null,"Bat","https://cdn-icons-png.flaticon.com/512/616/616620.png"));
-//            addIcon(IconEntity(null,"Bird","https://cdn-icons-png.flaticon.com/512/7197/7197073.png"));
-//        }
-//        Toast.makeText(requireContext(),"Icons have been added to DB",Toast.LENGTH_SHORT).show()
-//    }
+    private fun addIconToDatabase(){
+        mIconViewModel.apply {
+            addIcon(IconEntity(null,"Fly","https://cdn-icons-png.flaticon.com/512/2849/2849909.png"));
+            addIcon(IconEntity(null,"Ant","https://cdn-icons-png.flaticon.com/512/1850/1850279.png"));
+            addIcon(IconEntity(null,"Bug","https://cdn-icons-png.flaticon.com/512/854/854649.png"));
+            addIcon(IconEntity(null,"Centipede","https://cdn-icons-png.flaticon.com/512/1850/1850261.png"));
+            addIcon(IconEntity(null,"Roach","https://cdn-icons-png.flaticon.com/512/1553/1553874.png"));
+            addIcon(IconEntity(null,"Mosquito","https://cdn-icons-png.flaticon.com/512/2865/2865206.png"));
+            addIcon(IconEntity(null,"Spider","https://cdn-icons-png.flaticon.com/512/1850/1850190.png"));
+            addIcon(IconEntity(null,"Wasp","https://cdn-icons-png.flaticon.com/512/311/311590.png"));
+            addIcon(IconEntity(null,"Beetle","https://cdn-icons-png.flaticon.com/512/2975/2975299.png"));
+            addIcon(IconEntity(null,"Mouse","https://cdn-icons-png.flaticon.com/512/2297/2297338.png"));
+            addIcon(IconEntity(null,"Bat","https://cdn-icons-png.flaticon.com/512/616/616620.png"));
+            addIcon(IconEntity(null,"Bird","https://cdn-icons-png.flaticon.com/512/7197/7197073.png"));
+        }
+        Toast.makeText(requireContext(),"Icons have been added to DB",Toast.LENGTH_SHORT).show()
+    }
 
 
 //    private fun setStory() {
@@ -147,12 +149,12 @@ class StickerBSFragment : BottomSheetDialogFragment() {
 //    }
 
     inner class StickerAdapter : RecyclerView.Adapter<StickerAdapter.ViewHolder>() {
-//       private var iconList = emptyList<IconEntity>()
+       private var iconList = emptyList<IconEntity>()
 
-//        fun setData(icon: List<IconEntity>){
-//            this.iconList = icon
-//            notifyDataSetChanged()
-//        }
+        fun setData(icon: List<IconEntity>){
+            this.iconList = icon
+            notifyDataSetChanged()
+        }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val view = LayoutInflater.from(parent.context).inflate(R.layout.row_sticker, parent, false)
@@ -164,15 +166,15 @@ class StickerBSFragment : BottomSheetDialogFragment() {
             // Load sticker image from remote url
             Glide.with(requireContext())
                     .asBitmap()
-                    .load(stickerPathList[position])
+//                    .load(stickerPathList[position])
 //                    .load(listStoryItem[position].photoUrl)
-//                    .load(iconList[position].iconUrl)
-//                    .into(holder.imgSticker)
+                    .load(iconList[position].iconUrl)
+                    .into(holder.imgSticker)
         }
 
         override fun getItemCount(): Int {
-            return stickerPathList.size
-//            return iconList.size
+//            return stickerPathList.size
+            return iconList.size
 //            return listStoryItem.size
         }
 
@@ -184,8 +186,8 @@ class StickerBSFragment : BottomSheetDialogFragment() {
                     if (mStickerListener != null) {
                         Glide.with(requireContext())
                                 .asBitmap()
-                                .load(stickerPathList[layoutPosition])
-//                                .load(iconList[layoutPosition].iconUrl)
+//                                .load(stickerPathList[layoutPosition])
+                                .load(iconList[layoutPosition].iconUrl)
 //                            .load(listStoryItem[layoutPosition].photoUrl)
                             .into(object : CustomTarget<Bitmap?>(256, 256) {
                                     override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap?>?) {
@@ -215,6 +217,6 @@ class StickerBSFragment : BottomSheetDialogFragment() {
                 "https://cdn-icons-png.flaticon.com/256/4392/4392471.png",
                 "https://cdn-icons-png.flaticon.com/256/4392/4392522.png",
         )
-//        private val iconPestList = ArrayList<IconEntity>()
+        private val iconPestList = ArrayList<IconEntity>()
     }
 }

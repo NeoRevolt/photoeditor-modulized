@@ -42,6 +42,8 @@ import com.example.photoeditor_module.base.BaseActivity
 import com.example.photoeditor_module.burhanrashid52.photoeditor.*
 import com.example.photoeditor_module.burhanrashid52.photoeditor.shape.ShapeBuilder
 import com.example.photoeditor_module.burhanrashid52.photoeditor.shape.ShapeType
+import com.example.photoeditor_module.data.offline.LayoutViewModel
+import com.example.photoeditor_module.data.offline.entity.TransactionEntity
 import com.example.photoeditor_module.filters.FilterListener
 import com.example.photoeditor_module.tools.EditingToolsAdapter
 import com.example.photoeditor_module.tools.ToolType
@@ -57,6 +59,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.lang.reflect.Type
 import java.util.concurrent.Executors
 
 class EditImageActivity : BaseActivity(), OnPhotoEditorListener, View.OnClickListener,
@@ -84,7 +87,7 @@ class EditImageActivity : BaseActivity(), OnPhotoEditorListener, View.OnClickLis
 
     private var getFile: File? = null
     private lateinit var progressBar: ProgressBar
-//    private lateinit var mTransactions: LayoutViewModel
+    private lateinit var mTransactions: LayoutViewModel
 
     @VisibleForTesting
     var mSaveImageUri: Uri? = null
@@ -99,8 +102,10 @@ class EditImageActivity : BaseActivity(), OnPhotoEditorListener, View.OnClickLis
 
         initViews()
         handleIntentImage(mPhotoEditorView?.source)
-        mWonderFont = Typeface.createFromAsset(assets, "beyond_wonderland.ttf")
+        // TODO : This Wonder Font are optional
+//        mWonderFont = Typeface.createFromAsset(assets, "beyond_wonderland.ttf")
         mPropertiesBSFragment = PropertiesBSFragment()
+        // TODO : This EmojiFragment() still has some bug, the emoji is still null
 //        mEmojiBSFragment = EmojiBSFragment()
         mStickerBSFragment = StickerBSFragment()
         mShapeBSFragment = ShapeBSFragment()
@@ -474,6 +479,9 @@ class EditImageActivity : BaseActivity(), OnPhotoEditorListener, View.OnClickLis
                                     mPhotoEditorView?.source?.setImageURI(mSaveImageUri)
                                     val myFile = mSaveImageUri?.let { uriToFile(it,this@EditImageActivity)}
                                     getFile = myFile
+                                    // TODO: Delete this save to DB when UploadImage() Completed
+                                    mTransactions = ViewModelProvider(this@EditImageActivity).get(LayoutViewModel::class.java)
+                                    mTransactions.addTransaction(TransactionEntity(getFile.toString(),getFile?.name.toString(),null))
 //                                    uploadImage()
                                 }
 
