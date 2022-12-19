@@ -53,26 +53,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:photo_src="@drawable/blank_image" />
 
-    <!--    <ImageView-->
-    <!--        android:id="@+id/imgUndo"-->
-    <!--        android:layout_width="@dimen/top_tool_icon_width"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:background="@color/semi_black_transparent"-->
-    <!--        android:padding="8dp"-->
-    <!--        android:src="@drawable/ic_undo"-->
-    <!--        app:layout_constraintBottom_toTopOf="@+id/rvConstraintTools"-->
-    <!--        app:layout_constraintEnd_toStartOf="@+id/imgRedo" />-->
-
-    <!--    <ImageView-->
-    <!--        android:id="@+id/imgRedo"-->
-    <!--        android:layout_width="@dimen/top_tool_icon_width"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:background="@color/semi_black_transparent"-->
-    <!--        android:padding="8dp"-->
-    <!--        android:src="@drawable/ic_redo"-->
-    <!--        app:layout_constraintBottom_toTopOf="@+id/rvConstraintTools"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent" />-->
-
     <ImageView
         android:id="@+id/imgGallery"
         android:layout_width="@dimen/top_tool_icon_width"
