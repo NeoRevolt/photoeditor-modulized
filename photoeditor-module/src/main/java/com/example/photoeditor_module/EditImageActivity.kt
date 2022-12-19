@@ -50,7 +50,10 @@ import com.example.photoeditor_module.tools.ToolType
 import com.example.photoeditor_module.ui.toolsfragments.*
 import com.example.photoeditor_module.utils.FileSaveHelper
 import com.example.photoeditor_module.utils.uriToFile
+import java.lang.Float.max
+import java.lang.Float.min
 import java.util.concurrent.Executors
+import android.view.ScaleGestureDetector
 
 class EditImageActivity : BaseActivity(), OnPhotoEditorListener, View.OnClickListener,
     PropertiesBSFragment.Properties, ShapeBSFragment.Properties, EmojiBSFragment.EmojiListener,
@@ -76,6 +79,9 @@ class EditImageActivity : BaseActivity(), OnPhotoEditorListener, View.OnClickLis
     private var getFile: File? = null
     private lateinit var progressBar: ProgressBar
     private lateinit var mTransactions: LayoutViewModel
+
+    private lateinit var mScaleGestureDetector: ScaleGestureDetector
+    private var mScaleFactor = 1.0f
 
     @VisibleForTesting
     var mSaveImageUri: Uri? = null
@@ -151,6 +157,28 @@ class EditImageActivity : BaseActivity(), OnPhotoEditorListener, View.OnClickLis
         showLoading(false)
         mPhotoEditorView?.source?.setImageResource(R.drawable.blank_image)
         mSaveFileHelper = FileSaveHelper(this)
+
+        mPhotoEditorView?.setOnClickListener {
+            mScaleGestureDetector = ScaleGestureDetector(this,ScaleListener())
+            showFilter(false)
+        }
+    }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        if (event != null) {
+            mScaleGestureDetector.onTouchEvent(event)
+        }
+        return true
+    }
+
+    private inner class ScaleListener: ScaleGestureDetector.SimpleOnScaleGestureListener(){
+        override fun onScale(detector: ScaleGestureDetector): Boolean {
+            mScaleFactor *= detector.scaleFactor
+            mScaleFactor = max(0.1f, min(mScaleFactor,10.0f))
+            mPhotoEditorView?.scaleX = mScaleFactor
+            mPhotoEditorView?.scaleY = mScaleFactor
+            return true
+        }
     }
 
     private fun handleIntentImage(source: ImageView?) {
@@ -500,6 +528,7 @@ class EditImageActivity : BaseActivity(), OnPhotoEditorListener, View.OnClickLis
                         mTxtCurrentTool?.setText(R.string.label_text)
                     }
                 })
+                mPhotoEditor?.setBrushDrawingMode(false)
             }
             ToolType.ERASER -> {
                 mPhotoEditor?.brushEraser()
@@ -508,10 +537,19 @@ class EditImageActivity : BaseActivity(), OnPhotoEditorListener, View.OnClickLis
             ToolType.FILTER -> {
                 mTxtCurrentTool?.setText(R.string.label_filter)
                 showFilter(true)
+                mPhotoEditor?.setBrushDrawingMode(false)
             }
-            ToolType.EMOJI -> showBottomSheetDialogFragment(mEmojiBSFragment)
-            ToolType.STICKER -> showBottomSheetDialogFragment(mStickerBSFragment)
-            else -> {}
+            ToolType.EMOJI -> {
+                showBottomSheetDialogFragment(mEmojiBSFragment)
+                mPhotoEditor?.setBrushDrawingMode(false)
+            }
+            ToolType.STICKER -> {
+                showBottomSheetDialogFragment(mStickerBSFragment)
+                mPhotoEditor?.setBrushDrawingMode(false)
+            }
+            else -> {
+                mPhotoEditor?.setBrushDrawingMode(false)
+            }
         }
     }
 
