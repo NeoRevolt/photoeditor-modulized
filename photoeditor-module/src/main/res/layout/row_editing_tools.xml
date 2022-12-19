@@ -6,19 +6,30 @@
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     android:padding="4dp"
-    android:background="@drawable/rounded_corner"
     android:foreground="?attr/selectableItemBackground">
 
-    <ImageView
-        android:id="@+id/imgToolIcon"
-        android:layout_width="@dimen/editor_size_horizontal"
-        android:layout_height="@dimen/editor_size"
-        android:layout_margin="4dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/itemToolCard"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:src="@drawable/ic_brush" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:backgroundTint="@color/colorSecondaryDark"
+        app:cardCornerRadius="50dp">
+        <ImageView
+            android:id="@+id/imgToolIcon"
+            android:layout_width="@dimen/editor_size"
+            android:layout_height="@dimen/editor_size"
+            android:layout_margin="15dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:src="@drawable/ic_brush" />
+    </androidx.cardview.widget.CardView>
+
+
 
     <TextView
         android:id="@+id/txtTool"
@@ -28,7 +39,7 @@
         android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgToolIcon"
+        app:layout_constraintTop_toBottomOf="@+id/itemToolCard"
         tools:text="@string/label_brush" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

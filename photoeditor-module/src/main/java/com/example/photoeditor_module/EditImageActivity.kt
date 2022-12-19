@@ -23,7 +23,7 @@ import android.widget.TextView
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
-import com.example.photoediting.filters.FilterViewAdapter
+import com.example.photoeditor_module.filters.FilterViewAdapter
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -36,6 +36,7 @@ import java.io.File
 import java.io.IOException
 import java.lang.Exception
 import androidx.annotation.RequiresPermission
+import androidx.cardview.widget.CardView
 import androidx.lifecycle.ViewModelProvider
 import com.example.photoeditor_module.base.BaseActivity
 import com.example.photoeditor_module.burhanrashid52.photoeditor.*
@@ -257,9 +258,9 @@ class EditImageActivity : BaseActivity(), OnPhotoEditorListener, View.OnClickLis
         imgUndo.setOnClickListener(this)
         val imgRedo: ImageView = findViewById(R.id.imgRedo)
         imgRedo.setOnClickListener(this)
-        val imgCamera: ImageView = findViewById(R.id.imgCamera)
+        val imgCamera: CardView = findViewById(R.id.imgCamera)
         imgCamera.setOnClickListener(this)
-        val imgGallery: ImageView = findViewById(R.id.imgGallery)
+        val imgGallery: CardView = findViewById(R.id.imgGallery)
         imgGallery.setOnClickListener(this)
         val imgSave: ImageView = findViewById(R.id.imgSave)
         imgSave.setOnClickListener(this)

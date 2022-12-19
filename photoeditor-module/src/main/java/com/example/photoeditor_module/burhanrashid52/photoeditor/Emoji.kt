@@ -1,15 +1,10 @@
-package ja.burhanrashid52.photoeditor
+package com.example.photoeditor_module.burhanrashid52.photoeditor
 
 import android.graphics.Typeface
 import android.view.Gravity
 import android.view.View
 import android.widget.TextView
 import com.example.photoeditor_module.R
-import com.example.photoeditor_module.burhanrashid52.photoeditor.*
-import com.example.photoeditor_module.burhanrashid52.photoeditor.Graphic
-import com.example.photoeditor_module.burhanrashid52.photoeditor.GraphicManager
-import com.example.photoeditor_module.burhanrashid52.photoeditor.MultiTouchListener
-import com.example.photoeditor_module.burhanrashid52.photoeditor.PhotoEditorViewState
 
 /**
  * Created by Burhanuddin Rashid on 14/05/21.
