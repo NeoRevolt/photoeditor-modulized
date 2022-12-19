@@ -57,7 +57,6 @@ class EditImageActivity : BaseActivity(), OnPhotoEditorListener, View.OnClickLis
     StickerBSFragment.StickerListener,
     EditingToolsAdapter.OnItemSelected, FilterListener {
 
-    //Init Variables
     var mPhotoEditor: PhotoEditor? = null
     private var mPhotoEditorView: PhotoEditorView? = null
     private var mPropertiesBSFragment: PropertiesBSFragment? = null
@@ -66,7 +65,6 @@ class EditImageActivity : BaseActivity(), OnPhotoEditorListener, View.OnClickLis
     private var mEmojiBSFragment: EmojiBSFragment? = null
     private var mStickerBSFragment: StickerBSFragment? = null
     private var mTxtCurrentTool: TextView? = null
-    private var mWonderFont: Typeface? = null
     private var mRvTools: RecyclerView? = null
     private var mRvFilters: RecyclerView? = null
     private val mEditingToolsAdapter = EditingToolsAdapter(this)
@@ -117,13 +115,9 @@ class EditImageActivity : BaseActivity(), OnPhotoEditorListener, View.OnClickLis
         val photoUrl = intent.getStringExtra(EXTRA_PHOTO)
         val requestCode = intent.getStringExtra(EXTRA_REQ)
 
-        //Typeface mTextRobotoTf = ResourcesCompat.getFont(this, R.font.roboto_medium);
-//        Typeface mEmojiTypeFace = Typeface.createFromAsset(getAssets(), "emojione-android.ttf");
         mPhotoEditor = mPhotoEditorView?.run {
             PhotoEditor.Builder(this@EditImageActivity, this)
                 .setPinchTextScalable(pinchTextScalable) // set flag to make text scalable when pinch
-                //.setDefaultTextTypeface(mTextRobotoTf)
-                //.setDefaultEmojiTypeface(mEmojiTypeFace)
                 .build() // build photo editor sdk
         }
         mPhotoEditor?.setOnPhotoEditorListener(this)
@@ -158,65 +152,6 @@ class EditImageActivity : BaseActivity(), OnPhotoEditorListener, View.OnClickLis
         mPhotoEditorView?.source?.setImageResource(R.drawable.blank_image)
         mSaveFileHelper = FileSaveHelper(this)
     }
-
-//    private fun uploadImage(){
-//        mTransactions = ViewModelProvider(this).get(LayoutViewModel::class.java)
-//        if (getFile != null){
-//            val file = reduceFileImage(getFile as File)
-//            val isi = "no capt"
-//
-//            val description = isi.toRequestBody("text/plain".toMediaType())
-//            val requestImageFile = file.asRequestBody("image/png".toMediaTypeOrNull())
-//            val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
-//                "photo",
-//                file.name,
-//                requestImageFile
-//            )
-//            showLoading(true)
-//            val service = ApiConfig.getApiService(this).uploadStory(imageMultipart, description)
-//            service.enqueue(object : Callback<AddNewStoryResponse>{
-//                override fun onResponse(
-//                    call: Call<AddNewStoryResponse>,
-//                    response: Response<AddNewStoryResponse>
-//                ) {
-//                    if (response.isSuccessful) {
-//                        showLoading(false)
-//                        val responseBody = response.body()
-//                        if (responseBody != null && !responseBody.error) {
-//                            Toast.makeText(
-//                                this@EditImageActivity,
-//                                responseBody.message,
-//                                Toast.LENGTH_SHORT
-//                            ).show()
-//                            Intent(this@EditImageActivity, RemoteImagesActivity::class.java).also {
-//                                startActivity(it)
-//                                finish()
-//                            }
-//                            mTransactions.addTransaction(TransactionEntity(file.toString(),file.name,null))
-//                        }
-//                    } else {
-//                        showLoading(false)
-//                        Toast.makeText(this@EditImageActivity, response.message(), Toast.LENGTH_SHORT)
-//                            .show()
-//                    }
-//                }
-//
-//                override fun onFailure(call: Call<AddNewStoryResponse>, t: Throwable) {
-//                    Toast.makeText(
-//                        this@EditImageActivity,
-//                        "Failed to connect",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-//                }
-//            })
-//        }else {
-//            Toast.makeText(
-//                this,
-//                "Please save the image first",
-//                Toast.LENGTH_SHORT
-//            ).show()
-//        }
-//    }
 
     private fun handleIntentImage(source: ImageView?) {
         if (intent == null) {
@@ -446,6 +381,7 @@ class EditImageActivity : BaseActivity(), OnPhotoEditorListener, View.OnClickLis
                                     mPhotoEditorView?.source?.setImageURI(mSaveImageUri)
                                     val myFile = mSaveImageUri?.let { uriToFile(it,this@EditImageActivity)}
                                     getFile = myFile
+
                                     // TODO: Delete this save to DB when UploadImage() Completed
                                     mTransactions = ViewModelProvider(this@EditImageActivity).get(LayoutViewModel::class.java)
                                     mTransactions.addTransaction(TransactionEntity(getFile.toString(),getFile?.name.toString(),null))
