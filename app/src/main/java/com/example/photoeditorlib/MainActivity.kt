@@ -19,9 +19,14 @@ class MainActivity : AppCompatActivity() {
             btnToLib.setOnClickListener {
                 Intent(this@MainActivity, Class.forName("com.example.photoeditor_module.EditImageActivity")).also {
                     it.putExtra(EditImageActivity.EXTRA_REQ,"gallery")
-                    it.putExtra(EditImageActivity.EXTRA_PHOTO,"https://story-api.dicoding.dev/images/stories/photos-1671171861104_xky0h4lW.jpg")
                     startActivity(it)
                 }
+
+//                Intent(this@MainActivity, Class.forName("com.example.photoeditor_module.EditImageActivity")).also {
+//                    it.putExtra(EditImageActivity.EXTRA_REQ,"remote")
+//                    it.putExtra(EditImageActivity.EXTRA_PHOTO,"https://w0.peakpx.com/wallpaper/205/460/HD-wallpaper-sea-beach-beautiful-scene-clouds-deep-sea-natural-graphy-nature-beauty-graphy-lover-portrait.jpg")
+//                    startActivity(it)
+//                }
 //                Intent(this@MainActivity, ShowDataLibActivity::class.java).also {
 //                    it.putExtra(ShowDataLibActivity.EXTRA_DETAIL,"INI DATA")
 //                    startActivity(it)

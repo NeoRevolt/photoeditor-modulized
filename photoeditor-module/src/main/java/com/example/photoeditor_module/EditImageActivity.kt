@@ -157,16 +157,13 @@ class EditImageActivity : BaseActivity(), OnPhotoEditorListener, View.OnClickLis
         showLoading(false)
         mPhotoEditorView?.source?.setImageResource(R.drawable.blank_image)
         mSaveFileHelper = FileSaveHelper(this)
-
-        mPhotoEditorView?.setOnClickListener {
-            mScaleGestureDetector = ScaleGestureDetector(this,ScaleListener())
-            showFilter(false)
-        }
+        mScaleGestureDetector = ScaleGestureDetector(this,ScaleListener())
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         if (event != null) {
             mScaleGestureDetector.onTouchEvent(event)
+            showFilter(false)
         }
         return true
     }
@@ -511,7 +508,7 @@ class EditImageActivity : BaseActivity(), OnPhotoEditorListener, View.OnClickLis
 
     override fun onToolSelected(toolType: ToolType?) {
         when (toolType) {
-            ToolType.SHAPE -> {
+            ToolType.BRUSH -> {
                 mPhotoEditor?.setBrushDrawingMode(true)
                 mShapeBuilder = ShapeBuilder()
                 mPhotoEditor?.setShape(mShapeBuilder)
@@ -534,7 +531,7 @@ class EditImageActivity : BaseActivity(), OnPhotoEditorListener, View.OnClickLis
                 mPhotoEditor?.brushEraser()
                 mTxtCurrentTool?.setText(R.string.label_eraser_mode)
             }
-            ToolType.FILTER -> {
+            ToolType.ADJUST -> {
                 mTxtCurrentTool?.setText(R.string.label_filter)
                 showFilter(true)
                 mPhotoEditor?.setBrushDrawingMode(false)

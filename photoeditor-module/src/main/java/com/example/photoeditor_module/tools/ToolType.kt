@@ -6,5 +6,5 @@ package com.example.photoeditor_module.tools
  * @since 5/23/2018
  */
 enum class ToolType {
-    SHAPE, TEXT, ERASER, FILTER, EMOJI, STICKER
+    BRUSH, TEXT, ERASER, ADJUST, EMOJI, STICKER
 }
